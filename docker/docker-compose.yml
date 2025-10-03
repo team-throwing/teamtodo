@@ -1,0 +1,27 @@
+services:
+  teamtodo_mysql:
+    container_name: teamtodo_mysql
+    image: mysql:8.0.43
+    restart: always
+    ports:
+      - "3307:3306"
+
+    environment:
+      MYSQL_DATABASE: teamtodo
+      MYSQL_USER: 여기에 mysql 아이디 입력
+      MYSQL_PASSWORD: 여기에 해당 아이디의 비밀번호 입력
+      MYSQL_ROOT_PASSWORD: 루트 비밀번호 입력
+      TZ: Asia/Seoul
+      LC_ALL: C.UTF-8
+
+    volumes:
+      # 컨테이너의 db를 프로젝트 경로에 마운트
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      # 초기화 스크립트 경로
+      - ./mysql/init:/docker-entrypoint-initdb.d
+
+    command:
+      - --character-set-server=UTF8MB4
+      - --collation-server=UTF8MB4_UNICODE_CI
+      - --skip-character-set-client-handshake
