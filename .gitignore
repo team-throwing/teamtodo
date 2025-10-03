@@ -12,6 +12,8 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+docker/mysql/config/
+docker/mysql/data/
 application.properties
 
 ### Eclipse ###
