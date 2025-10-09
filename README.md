@@ -1,14 +1,14 @@
 # teamtodo
 
-- ./db.properties.example 파일 참고 필수
-- ./database/teamtodo-create-table.sql : DDL
+- ./application.properties.example 파일 참고 필수
+- ./database/teamtodo-create-table.sql : DDL <- 인텔리제이 데이터베이스 연결 후 스크립트 창에서 바로 실행 가능!
 
 CheckList
 - [ ] Database 생성
 - [ ] MySql 접속용 계정 생성, 생성한 Database에 권한 설정
-- [ ] Copy db.properties.example :  cp db.properties.example src/main/resources/db.properties
+- [ ] Copy application.properties.example :  cp application.properties.example src/main/resources/application.properties
 > cp A B : A의 파일을 B의 경로의 파일명으로 복사
-- [ ] src/main/resources/db.properties 확인 후 내용 변경
+- [ ] src/main/resources/application.properties 확인 후 내용 변경
 - [ ] `.gitignore` 설정 확인
 
 TODO
