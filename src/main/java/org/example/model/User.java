@@ -2,6 +2,7 @@ package org.example.model;
 
 public class User {
 
+
     private long id;
     private String email;
     private String encryptedPassword;
@@ -19,7 +20,9 @@ public class User {
         this.encryptedPassword = encryptedPassword;
         this.name = name;
     }
-
+    public void setId(long id) {      //
+        this.id = id;}               // 지민수가 추가함
+0
     public long getId() {
         return id;
     }
