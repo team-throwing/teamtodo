@@ -1,4 +1,4 @@
-package org.example.model;
+package main.java.org.example.model;
 
 import java.sql.Timestamp;
 

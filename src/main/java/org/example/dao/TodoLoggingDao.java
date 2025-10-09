@@ -1,5 +1,7 @@
-package org.example.dao;
+package main.java.org.example.dao;
 
+import main.java.org.example.model.Status;
+import main.java.org.example.model.TodoLogging;
 import org.example.model.Status;
 import org.example.model.TodoLogging;
 
@@ -31,6 +33,7 @@ public interface TodoLoggingDao {
      * @throws SQLException
      * @throws SQLTimeoutException
      */
+
     Optional<TodoLogging> updateStatus(long todoId, Status status) throws SQLException, SQLTimeoutException;
 
     /**

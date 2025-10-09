@@ -1,6 +1,6 @@
-package org.example.dao;
+package main.java.org.example.dao;
 
-import org.example.model.Team;
+import main.java.org.example.model.Team;
 
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;

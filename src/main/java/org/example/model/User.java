@@ -1,4 +1,4 @@
-package org.example.model;
+package main.java.org.example.model;
 
 public class User {
 
@@ -15,14 +15,6 @@ public class User {
         this.name = name;
     }
 
-    public User(String email, String encryptedPassword, String nickname) {
-        this.email = email;
-        this.encryptedPassword = encryptedPassword;
-        this.name = name;
-    }
-    public void setId(long id) {      //
-        this.id = id;}               // 지민수가 추가함
-0
     public long getId() {
         return id;
     }

@@ -1,27 +1,18 @@
-package org.example.dao;
+package main.java.org.example.dao;
 
-import org.example.model.User;
-import org.example.util.DBUtil;
+import main.java.org.example.model.User;
+import main.java.org.example.util.DBUtil;
 
 import java.sql.*;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    /**
-     * DB에 User 저장
-     * @param user User
-     * @return 저장 성공: 자동 생성 키를 포함하는 새 User 객체를 가지는 Optional 객체<br/>
-     *          저장 실패: Optional.empty()
-     * @throws SQLException
-     * @throws SQLTimeoutException
-     * @implNote <br>
-     * <ul>
-     *     <li>파라마터로 전달받은 user의 id 필드는 사용하지 마세요.</li>
-     *     <li>executeUpdate 의 반환 값이 0 인 경우 저장이 되지 않은 것이므로 Optional.empty() 을 반환하시면 됩니다.</li>
-     * </ul>
-     */
+    private final Connection conn;  // ✅ 실제 DB 연결
 
+    public UserDaoImpl(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override // 유저 아이디 생성
     public Optional<User> create(User user) throws SQLException, SQLTimeoutException {
@@ -40,10 +31,16 @@ public class UserDaoImpl implements UserDao {
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     long newId = rs.getLong(1);
-                    user.setId(newId);
-                    return Optional.of(user);
+                    User newUser = new User(
+                            newId,
+                            user.getNickname(),
+                            user.getEncryptedPassword(),   /* setid 빼고 새로운 user 만드는거로 수정*/
+                            user.getEmail()
+                    );
+                    return Optional.of(newUser);
                 }
             }
+
         }
         return Optional.empty();
     }
@@ -115,11 +112,12 @@ public class UserDaoImpl implements UserDao {
 
     // ✅ 공통 ResultSet → User 변환
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.id(rs.getLong("id"));
-        user.name(rs.getString("username"));
-        user.email(rs.getString("email"));
-        user.encryptedPassword(rs.getString("password"));
-        return user;
+        return new User(
+                rs.getLong("id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("password")
+        );
     }
+
 }
