@@ -6,23 +6,23 @@ public class User {
     private long id;
     private String email;
     private String encryptedPassword;
-    private String name;
+    private String nickname;
 
-    public User(long id, String email, String encryptedPassword, String name) {
+    public User(long id, String email, String encryptedPassword, String nickname) {
         this.id = id;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
-        this.name = name;
+        this.nickname = nickname;
     }
 
     public User(String email, String encryptedPassword, String nickname) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
-        this.name = name;
+        this.nickname = nickname;
     }
     public void setId(long id) {      //
         this.id = id;}               // 지민수가 추가함
-0
+
     public long getId() {
         return id;
     }
@@ -36,7 +36,7 @@ public class User {
     }
 
     public String getNickname() {
-        return name;
+        return nickname;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", encryptedPassword='" + encryptedPassword + '\'' +
-                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
                 '}';
     }
 }
