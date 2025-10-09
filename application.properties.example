@@ -1,0 +1,17 @@
+# Database Configuration Template
+# 이 파일을 복사해서 application.properties로 이름 변경 후 아래 위치로 옮겨주세요
+# src/main/resources/application.properties <- !!!
+# 프로젝트 루트 경로 기준, 커맨드라인 명령어는 다음과 같습니다.
+# cp application.properties.example src/main/resources/application.properties
+
+# Database Connection
+db.url=jdbc:mysql://localhost:3306/{mysql 데이터베이스 이름(ex. teamtodo)}
+db.username={위 데이터베이스에 대한 권한을 가지고 있는 사용자 명(ex. seungyeop)}
+db.password={위 사용자의 비밀번호}
+
+# HikariCP Settings
+hikari.maximumPoolSize=10
+hikari.minimumIdle=5
+hikari.connectionTimeout=2000
+hikari.idleTimeout=30000
+hikari.maxLifetime=1800000
