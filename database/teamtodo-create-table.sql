@@ -28,8 +28,8 @@ create table if not exists team_assignment(
 
     # constraints
     constraint pk_team_assignment primary key(id),
-    constraint fk_team_assignment_user_id_id_user foreign key(user_id) references user(id),
-    constraint fk_team_assignment_team_id_id_team foreign key(team_id) references team(id)
+    constraint fk_team_assignment_user_id_id_user foreign key(user_id) references user(id) on delete cascade,
+    constraint fk_team_assignment_team_id_id_team foreign key(team_id) references team(id) on delete cascade
 );
 
 create table if not exists todo(
@@ -41,7 +41,7 @@ create table if not exists todo(
 
     # constraints
     constraint pk_todo primary key(id),
-    constraint fk_todo_team_id_id_team foreign key(team_id) references team(id)
+    constraint fk_todo_team_id_id_team foreign key(team_id) references team(id) on delete cascade
 );
 
 create table if not exists todo_logging(
@@ -52,5 +52,5 @@ create table if not exists todo_logging(
 
     # constraints
     constraint pk_todo_logging primary key(id),
-    constraint fk_todo_logging_todo_id_id_todo foreign key(id) references todo(id)
+    constraint fk_todo_logging_todo_id_id_todo foreign key(id) references todo(id) on delete cascade
 );
