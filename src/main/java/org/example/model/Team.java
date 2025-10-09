@@ -1,15 +1,10 @@
 package org.example.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Team {
 
     private long id;
     private String name;
     private String goal;
-
-    private final List<User> users = new ArrayList<>();
 
     public Team(long id, String name, String goal) {
         this.id = id;
@@ -32,5 +27,14 @@ public class Team {
 
     public String getGoal() {
         return goal;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", goal='" + goal + '\'' +
+                '}';
     }
 }

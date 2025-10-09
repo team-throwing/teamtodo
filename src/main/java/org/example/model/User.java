@@ -1,17 +1,11 @@
 package org.example.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
 
     private long id;
     private String email;
     private String encryptedPassword;
     private String name;
-
-    // 가입한 팀 목록이 필요할 때만 소속 Team 객체가 채워짐
-    private final List<Team> teams = new ArrayList<>();
 
     public User(long id, String email, String encryptedPassword, String name) {
         this.id = id;
@@ -40,5 +34,15 @@ public class User {
 
     public String getNickname() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", encryptedPassword='" + encryptedPassword + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
