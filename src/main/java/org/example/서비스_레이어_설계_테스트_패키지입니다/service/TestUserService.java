@@ -44,7 +44,6 @@ public class TestUserService {
             });
 
         } catch (Exception e) {
-            System.err.println(e);
             e.printStackTrace();
         }
 
