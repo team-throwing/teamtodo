@@ -4,7 +4,7 @@ use teamtodo;
 
 create table if not exists user(
     id					bigint			auto_increment,
-    email				varchar(50)		not null,
+    email				varchar(50)		unique not null,
     encrypted_password	varchar(100)	not null,
     name				varchar(30)		not null,
 
