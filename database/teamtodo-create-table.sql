@@ -35,7 +35,6 @@ create table if not exists team_assignment(
 create table if not exists todo(
     id			bigint			auto_increment,
     title		varchar(50)		not null,
-    status		varchar(20)		not null,
     due			datetime		null,
     description	varchar(100)	null,
     team_id		bigint			not null,
