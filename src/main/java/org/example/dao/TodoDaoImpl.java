@@ -19,11 +19,14 @@ public class TodoDaoImpl implements main.java.org.example.dao.TodoDao {
     public Optional<Todo> create(Todo todo) throws SQLException, SQLTimeoutException {
         String sql = "INSERT INTO Todo (title, description, due, team_id) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, todo.getTitle());
+        try (Connection conn = DBUtil.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+
+            pstmt.setString(1, todo.getTitle());
             pstmt.setString(2, todo.getDescription());
             // due 처리
+
             if (todo.getDue() != null) {
                 pstmt.setTimestamp(3, Timestamp.valueOf(todo.getDue()));
             } else {
@@ -63,7 +66,8 @@ public class TodoDaoImpl implements main.java.org.example.dao.TodoDao {
                 FROM Todo
                 where id = ?
                 """;
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBUtil.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, id);
 
             try (ResultSet rs = pstmt.executeQuery()) {
