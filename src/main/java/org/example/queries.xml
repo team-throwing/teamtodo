@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<properties>
+    <query key="user.create">
+        INSERT INTO user
+        (email, encrypted_password, nickname)
+        VALUES(?,?,?)
+    </query>
+
+    <query key="user.findById">
+        SELECT
+            id,
+            email,
+            encrypted_password,
+            nickname
+            from user
+            where id = ?
+    </query>
+
+    <query key="user.findByEmail">
+        SELECT
+        id,
+        email,
+        encrypted_password,
+        nickname
+        from user
+        where email = ?
+    </query>
+
+    <query key="user.update">
+        UPDATE user SET
+        email = ?,
+        encrypted_password = ?,
+        nickname = ?
+        WHERE id = ?
+    </query>
+
+    <query key="user.delete">
+        DELETE FROM user
+        WHERE id = ?
+    </query>
+
+    <query key="team.create">
+        INSERT INTO team
+        (name, goal)
+        VALUES(?,?)
+    </query>
+
+    <query key="team.findById">
+        SELECT
+        id,
+        name,
+        goal
+        from team
+        where id = ?
+    </query>
+
+    <query key="team.update">
+        UPDATE team SET
+        name = ?,
+        goal = ?
+        WHERE id = ?
+    </query>
+
+    <query key="team.delete">
+        DELETE FROM team
+        WHERE id = ?
+    </query>
+
+    <query key="teamAssignment.assign">
+        INSERT INTO team_assignment (user_id, team_id)
+        VALUES (?, ?)
+    </query>
+
+    <query key="teamAssignment.isTeamHasMember">
+        SELECT 1
+        FROM team_assignment
+        WHERE user_id = ? AND team_id = ?
+    </query>
+
+    <query key="teamAssignment.findUsersByTeamId">
+        SELECT u.id, u.email, u.encrypted_password, u.nickname
+        FROM team_assignment ta
+        JOIN user u ON ta.user_id = u.id
+        WHERE ta.team_id = ?
+    </query>
+
+    <query key="teamAssignment.findTeamsByUserId">
+        SELECT t.id, t.name, t.goal
+        FROM team_assignment ta
+        JOIN team t ON ta.team_id = t.id
+        WHERE ta.user_id = ?
+    </query>
+
+    <query key="teamAssignment.resign">
+        DELETE FROM team_assignment
+        WHERE user_id = ? AND team_id = ?
+    </query>
+
+    <query key="todoLogging.updateStatus">
+        INSERT INTO todo_logging (status, todo_id)
+        VALUES (?, ?)
+    </query>
+
+    <query key="todoLogging.findLatestByTodoId">
+        SELECT id, todo_id, status, timestamp
+        FROM todo_logging
+        WHERE todo_id = ?
+        ORDER BY timestamp DESC
+        LIMIT 1
+    </query>
+
+    <query key="todoLogging.findAllByTodoId">
+        SELECT id, todo_id, status, timestamp
+        FROM todo_logging
+        WHERE todo_id = ?
+        ORDER BY timestamp DESC
+    </query>
+</properties>
