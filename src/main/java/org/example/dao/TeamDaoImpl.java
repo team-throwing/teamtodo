@@ -1,94 +1,80 @@
-package main.java.org.example.dao;
+package org.example.dao;
 
-import main.java.org.example.model.Team;
+import org.example.QueryUtil;
+import org.example.model.Team;
 
 import java.sql.*;
 import java.util.Optional;
 
-public class TeamDaoImpl implements TeamDao{
-    private Connection conn;
-    public TeamDaoImpl(Connection conn) {
-        this.conn = conn;
+public class TeamDaoImpl implements TeamDao {
+    private final Connection connection;
+
+    public TeamDaoImpl(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
     public Optional<Team> create(Team team) throws SQLException, SQLTimeoutException {
-        String sql = "insert into teams (name) values (?)";
+        String sql = QueryUtil.getQuery("team.create");
+        try(PreparedStatement pst = connection.prepareStatement(sql,  Statement.RETURN_GENERATED_KEYS)) {
+            pst.setString(1, team.getName());
+            pst.setString(2, team.getGoal());
 
-        try(Connection conn = DButil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, team.getName());
+            int result = pst.executeUpdate();
+
+            if (result > 0) {
+                try (ResultSet rs = pst.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        long id = rs.getLong(1);
+                        team.setId(id);
+                    }
+                }
+                return Optional.of(team);
+            } else {
+                return Optional.empty();
+            }
         }
-        return Optional.empty();
     }
 
     @Override
     public Optional<Team> findById(long id) throws SQLException, SQLTimeoutException {
-
-
-        if (id < 0){
-            throw new IllegalArgumentException("유효하지 않은 팀 ID 입니다");
-        }
-
-        String sql = "select * from teams where id = ?";
-
-        try(Connection conn = DButil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql))
-        {
-
-                pstmt.setLong(1, id);
-
-                try(ResultSet rs = pstmt.executeQuery()){
-                    if(rs.next()) {
-                        Team team = new Team(
-                                rs.getLong("id"),
-                                rs.getString("name"),
-                                rs.getString("description")
-                        );
-                        return Optional.of(team);
-                    }else {
-                        return Optional.empty();
-        }
+        String sql = QueryUtil.getQuery("team.findById");
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setLong(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    Team team = new Team(
+                            rs.getLong(1),
+                            rs.getString(2),
+                            rs.getString(3)
+                    );
+                    return Optional.of(team);
                 }
             }
+        } catch (SQLTimeoutException e) {
+            throw e;
         }
-
+        return Optional.empty();    }
 
     @Override
     public boolean update(Team team) throws SQLException, SQLTimeoutException {
-        if (team == null || team.getId() < 0) {
-            throw new IllegalArgumentException("수정할 팀 ID가 없습니다");
+        String sql = QueryUtil.getQuery("team.update");
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, team.getName());
+            pst.setString(2, team.getGoal());
+            pst.setLong(3, team.getId());
+
+            int result = pst.executeUpdate();
+            return result > 0;
         }
-            String sql = "update teams set name = ?, description = ? where id = ?";
-
-            try (Connection conn = DBUtil.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, team.getName());
-                pstmt.setString(2, team.getGoal());
-                pstmt.setLong(3, team.getId());
-
-                        int rows = pstmt.executeUpdate();
-
-                        return rows > 0;
-                    }
-                    }
+    }
 
     @Override
     public boolean deleteById(long id) throws SQLException, SQLTimeoutException {
-        if(id <= 0){
-            throw new IllegalArgumentException("삭제할 ID가 없습니다");
-        }
-        String sql = "delete from teams where id = ?";
-       try(Connection conn = DButil.getConnection();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-       pstmt.setLong(1, id);
-       int rows = pstmt.executeUpdate();
-       return rows > 0; // 삭제된게 있으면 true
-       }
-
-       }
-
-
-
-    }
+        String sql = QueryUtil.getQuery("team.deleteById");
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setLong(1, id);
+            int result = pst.executeUpdate();
+            return result > 0;  // 삭제된 행이 있다면 true 반환, 없다면 false 반환
+        }    }
+}
