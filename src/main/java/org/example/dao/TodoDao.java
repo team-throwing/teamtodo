@@ -48,10 +48,11 @@ public interface TodoDao {
 
     /**
      * DB 로부터 id 에 해당하는 할일 제거
-     * @param id 할일 id
+     * @param
      * @return 삭제 성공 여부(삭제할 팀을 찾지 못한 경우 false)
      * @throws SQLException
      * @throws SQLTimeoutException
      */
-    boolean deleteById(long id) throws SQLException, SQLTimeoutException;
+
+    boolean delete(long id) throws SQLException, SQLTimeoutException;
 }

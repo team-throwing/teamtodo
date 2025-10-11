@@ -72,23 +72,17 @@ public class TeamDaoImpl implements TeamDao{
                         return rows > 0;
                     }
                     }
-
     @Override
     public boolean deleteById(long id) throws SQLException, SQLTimeoutException {
         if(id <= 0){
-            throw new IllegalArgumentException("삭제할 ID가 없습니다");
-        }
+            throw new IllegalArgumentException("유효하지 않는 ID 입니다");
+                 }
         String sql = "delete from teams where id = ?";
-       try(Connection conn = DButil.getConnection();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-       pstmt.setLong(1, id);
-       int rows = pstmt.executeUpdate();
-       return rows > 0; // 삭제된게 있으면 true
+            try(Connection conn = DButil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+                     pstmt.setLong(1, id);
+                     int rows = pstmt.executeUpdate();
+                     return rows > 0; // 삭제된게 있으면 true
        }
-
        }
-
-
-
     }

@@ -120,7 +120,7 @@ public class TodoDaoImpl implements main.java.org.example.dao.TodoDao {
     }
 
     @Override
-    public boolean deleteById(long id) throws SQLException, SQLTimeoutException {
+    public boolean delete(long id) throws SQLException, SQLTimeoutException {
 
         if(id <= 0 ) {
             throw new IllegalArgumentException("유효하지 않는 ID입니다."); // id있는지 없는지부터 (boolean)
