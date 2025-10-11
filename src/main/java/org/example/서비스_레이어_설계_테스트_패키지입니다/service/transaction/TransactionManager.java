@@ -43,7 +43,8 @@ public class TransactionManager {
                     conn.rollback();
                 } catch (SQLException causeRollbackFail) {
                     // To Do: 롤백 실패 로깅 AOP?
-                    System.err.println("[트랜잭션 롤백 실패!] 사유: " + causeRollbackFail);
+                    System.err.println("[트랜잭션 롤백 실패!]");
+                    causeRollbackFail.printStackTrace();
                 }
                 conn.close();
             }

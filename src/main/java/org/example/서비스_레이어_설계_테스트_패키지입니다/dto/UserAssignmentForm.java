@@ -2,12 +2,12 @@ package org.example.서비스_레이어_설계_테스트_패키지입니다.dto;
 
 public class UserAssignmentForm {
     private String email;
-    private String rawPassword;
+    private String encryptedPassword;
     private String nickname;
 
-    public UserAssignmentForm(String email, String rawPassword, String nickname) {
+    public UserAssignmentForm(String email, String encryptedPassword, String nickname) {
         this.email = email;
-        this.rawPassword = rawPassword;
+        this.encryptedPassword = encryptedPassword;
         this.nickname = nickname;
     }
 
@@ -19,12 +19,12 @@ public class UserAssignmentForm {
         this.email = email;
     }
 
-    public String getRawPassword() {
-        return rawPassword;
+    public String getEncryptedPassword() {
+        return encryptedPassword;
     }
 
-    public void setRawPassword(String rawPassword) {
-        this.rawPassword = rawPassword;
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
     public String getNickname() {

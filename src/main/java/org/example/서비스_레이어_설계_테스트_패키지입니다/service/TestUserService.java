@@ -6,6 +6,8 @@ import org.example.서비스_레이어_설계_테스트_패키지입니다.dto.U
 import org.example.서비스_레이어_설계_테스트_패키지입니다.service.transaction.TransactionManager;
 import org.example.서비스_레이어_설계_테스트_패키지입니다.util.PasswordCodec;
 
+import java.sql.SQLException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -25,28 +27,24 @@ public class TestUserService {
         this.passwordCodec = passwordCodec;
     }
 
-    public User assignUser(UserAssignmentForm form) {
-        try {
+    public User assignUser(UserAssignmentForm form) throws Exception {
 
-            return transactionManager.execute(() -> {
+        return transactionManager.execute(() -> {
 
-                String encryptedPassword = passwordCodec.encrypt(form.getRawPassword());
-                User newUser = new User(form.getEmail(), encryptedPassword, form.getNickname());
+            User newUser;
+            try {
+                newUser = new User(form.getEmail(), form.getEncryptedPassword(), form.getNickname());
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("사용자 생성 실패");
+            }
 
-                Optional<User> optionalUser = userDao.create(newUser);
-                if (optionalUser.isEmpty()) {
-                    throw new RuntimeException("사용자가 생성되지 않았습니다.");
-                }
-                newUser = optionalUser.get();
-
-                return newUser;
-
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+            Optional<User> optionalUser;
+            try {
+                optionalUser = userDao.create(newUser);
+                return optionalUser.get();
+            } catch (SQLException | NoSuchElementException e) {
+                throw new RuntimeException("사용자 영속화 실패");
+            }
+        });
     }
 }
